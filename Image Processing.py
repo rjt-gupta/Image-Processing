@@ -34,6 +34,25 @@ def energy(img):
     dy = y_grad(gray)
 
     return cv2.add(np.absolute(dx), np.absolute(dy))
+
+def cm_energy_vertical(energy):
+
+    height, width = energy.shape[:2] # matrix of form [[x,y]]
+    energies = np.zeroes((height,width)) # filling the matrix with zeroes
+
+    # The Algo flows down the image and calculates the energies 
+    for i in range(1,height):
+        for j in range(width):
+
+    #calclating the energies of the cells from the cells vertically upwards
+            left = energies[i-1, j-1] if j-1 >=0 else 1e6 #1 times 10 to the power 6
+            middle = energies[i-1, j]
+            right = energies[i-1,j+1] if j+1 < width else 1e6
+
+            # Calculating the energy of the cells in next row down the image
+            energies[i,j] = energy[i,j] + min(left,middle,right)
+
+    return energies
     
 
 
