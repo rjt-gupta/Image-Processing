@@ -53,6 +53,25 @@ def cm_energy_vertical(energy):
             energies[i,j] = energy[i,j] + min(left,middle,right)
 
     return energies
+
+def cm_energy_horizontal(energy):
+
+    height, width = energy.shape[:2]
+    energies = np.zeroes((height,width))
+
+
+    for j in range(1,width):
+        for i in range(height):
+
+    #Calculating energies of cells from horizontally backwards
+            top = energies[i-1,j-1] if i-1>=0 else 1e6
+            middle = energies[i,j-1]
+            bottom = energies[i+1,j-1] if i+1 < height else 1e6
+
+            energies[i,j] = energy[i,j] + min(top,middle,bottom)
+
+    return energies
+
     
 
 
