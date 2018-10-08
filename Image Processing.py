@@ -72,6 +72,29 @@ def cm_energy_horizontal(energy):
 
     return energies
 
+def vertical_seam(energies):
+
+    height,width = energies.shape[:2]
+    prev = 0
+
+    seam = []
+    for i in range(height-1, -1, -1):
+        row = energies[i, : ] # Taking the entire row at height i
+
+        if i == height -1:
+            previous = np.argmin(row) #previous will be the min value of row at height i
+            seam.append([previous,i]) #Appending the min value to the seam
+
+        else:
+            
+            left = row[previous-1] if previous-1 >=0 else 1e6
+            middle = row[previous]
+            right = row[previous+1] if previous+1 < width else 1e6
+
+            previous = previous + np.argmin([left,middle,right]) -1
+            seam.append([previous,i])
+
+    return seam
     
 
 
