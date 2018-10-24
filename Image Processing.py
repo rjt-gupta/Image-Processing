@@ -95,6 +95,30 @@ def vertical_seam(energies):
             seam.append([previous,i])
 
     return seam
+
+def horizontal_seam(energies):
+
+    height,width = energies.shape[:2]
+    prev = 0
+    seam = []
+
+    for j in range(width-1,-1,-1):
+        col = energies[ : ,j]
+
+        if j == width-1:
+            previous = np.argmin(col)
+            seam.append([j,previous])
+
+        else:
+
+            top = col[previous-1]
+            middle = col[previous]
+            bottom = col[previous]
+
+            previous = previous + np.argmin([top,middle,bottom])
+            seam.append([j,previous])
+
+    return seam
     
 
 
